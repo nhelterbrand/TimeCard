@@ -52,7 +52,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"Mobile SDK Sample App";
+    self.title = @"APP HERE";
+    
     
     //Here we use a query that should work on either Force.com or Database.com
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:@"SELECT Name FROM User LIMIT 30"];

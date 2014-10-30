@@ -86,7 +86,7 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
         // authentication is initiated, if you have specific logic for each case.
         __weak AppDelegate *weakSelf = self;
         self.initialLoginSuccessBlock = ^(SFOAuthInfo *info) {
-            [weakSelf setupRootViewController];
+       //     [weakSelf setupRootViewController];
         };
         self.initialLoginFailureBlock = ^(SFOAuthInfo *info, NSError *error) {
             [[SFAuthenticationManager sharedManager] logout];
@@ -108,7 +108,6 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
 {
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [self initializeAppViewState];
-    
     //
     // If you wish to register for push notifications, uncomment the line below.  Note that,
     // if you want to receive push notifications from Salesforce, you will also need to
@@ -143,23 +142,43 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
 
 - (void)initializeAppViewState
 {
-    self.window.rootViewController = [[InitialViewController alloc] initWithNibName:nil bundle:nil];
+    NSBundle *bundle = [NSBundle mainBundle];
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Storyboard" bundle:bundle];
+    InitialViewController *rootView = (InitialViewController*)[sb instantiateViewControllerWithIdentifier:@"InitialView"];
+    self.window.rootViewController = rootView;
+  //  self.window.rootViewController = [[InitialViewController alloc] initWithNibName:nil bundle:nil];
     [self.window makeKeyAndVisible];
 }
 
 - (void)setupRootViewController
 {
-    RootViewController *rootVC = [[RootViewController alloc] initWithNibName:nil bundle:nil];
+    NSBundle *bundle = [NSBundle mainBundle];
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Storyboard" bundle:bundle];
+    RootViewController *rootView = (RootViewController*)[sb instantiateViewControllerWithIdentifier:@"RootView"];
+    self.window.rootViewController = rootView;
+}
+ /*
+- (void)initializeAppViewState
+{
+ //   self.window.rootViewController = [[InitialViewController alloc] initWithNibName:nil bundle:nil];
+    [self.window makeKeyAndVisible];
+}
+
+- (void)setupRootViewController
+{
+    RootViewController *rootVC = [[RootViewController alloc] init];
+    //RootViewController *rootVC = [[RootViewController alloc] initWithNibName:nil bundle:nil];
     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:rootVC];
     self.window.rootViewController = navVC;
 }
-
+*/
 #pragma mark - SFAuthenticationManagerDelegate
 
 - (void)authManagerDidLogout:(SFAuthenticationManager *)manager
 {
     [self log:SFLogLevelDebug msg:@"SFAuthenticationManager logged out.  Resetting app."];
     [self initializeAppViewState];
+  
     
     // Multi-user pattern:
     // - If there are two or more existing accounts after logout, let the user choose the account
@@ -193,7 +212,9 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
 {
     [self log:SFLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.",
      fromUser.userName, toUser.userName];
+    
     [self initializeAppViewState];
+  
     [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock failure:self.initialLoginFailureBlock];
 }
 

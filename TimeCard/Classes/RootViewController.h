@@ -28,7 +28,7 @@
 @interface RootViewController : UITableViewController <SFRestDelegate> {
     
     NSMutableArray *dataRows;
-    IBOutlet UITableView *tableView;    
+    IBOutlet UITableView *tableView;
 
 }
 

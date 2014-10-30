@@ -6,8 +6,16 @@
 //  Copyright (c) 2014 Etherios. All rights reserved.
 //
 
-#ifndef TimeCard_TimeCardViewController_h
-#define TimeCard_TimeCardViewController_h
+#import <UIKit/UIKit.h>
+#import "SFRestAPI.h"
 
+@interface TimeCardViewController : UITableViewController <SFRestDelegate> {
+    
+    NSMutableArray *dataRows;
+    IBOutlet UITableView *tableView;
+    
+}
 
-#endif
+@property (nonatomic, strong) NSArray *dataRows;
+
+@end
